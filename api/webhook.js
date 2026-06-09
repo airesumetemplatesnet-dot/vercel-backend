@@ -13,7 +13,9 @@ export default async function handler(req, res) {
     const eventName = req.body?.meta?.event_name;
     const customerEmail = req.body?.data?.attributes?.user_email || 
                           req.body?.data?.attributes?.customer_email;
-    const variantId = req.body?.data?.attributes?.variant_id;
+    const variantId = req.body?.data?.attributes?.variant_id ||
+                  req.body?.data?.attributes?.first_subscription_item?.variant_id ||
+                  req.body?.included?.[0]?.attributes?.variant_id;
     const status = req.body?.data?.attributes?.status;
 
     console.log('Webhook received:', eventName, customerEmail, variantId);
